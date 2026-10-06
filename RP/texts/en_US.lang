@@ -1,0 +1,8 @@
+pack.name=Moonweave Broom RP
+pack.description=A witch flying broom v0.1.0 | Bedrock 26.50+
+item.witchbroom:broom.name=Moonweave Broom
+entity.witchbroom:broom.name=Moonweave Broom
+action.interact.witchbroom.ride=Ride broom
+action.interact.witchbroom.pack=Pack broom
+witchbroom.controls=§bMoonweave Broom §f| Move + look to fly | Jump: rise | Sneak: dismount
+witchbroom.landing=§dSoft landing §f| Steer toward safe ground

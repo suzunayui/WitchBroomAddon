@@ -1,0 +1,22 @@
+{
+  "format_version": "1.8.0",
+  "animations": {
+    "animation.witchbroom.hover": {
+      "loop": true,
+      "bones": {
+        "broom": {
+          "position": [
+            0,
+            "query.property('witchbroom:occupied') ? math.sin(query.life_time * 140) * 0.3 : 0",
+            0
+          ],
+          "rotation": [
+            "query.property('witchbroom:occupied') ? math.sin(query.life_time * 90) * 1.2 : 0",
+            0,
+            0
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "moonweave-broom",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Original witch broom addon for Minecraft Bedrock 26.52",
+  "type": "module",
+  "scripts": {
+    "build": "python3 tools/build_data.py && python3 tools/build_art.py && tsc && python3 tools/package.py",
+    "test": "tsc --noEmit && node --check BP/scripts/main.js && node tests/safety.test.cjs && python3 tools/validate.py"
+  },
+  "devDependencies": {
+    "@minecraft/server": "2.10.0",
+    "typescript": "5.9.3"
+  }
+}

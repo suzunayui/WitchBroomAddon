@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "witchbroom:broom",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/broom"
+      },
+      "geometry": {
+        "default": "geometry.witchbroom.broom"
+      },
+      "animations": {
+        "hover": "animation.witchbroom.hover"
+      },
+      "scripts": {
+        "animate": [
+          "hover"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.witchbroom"
+      ]
+    }
+  }
+}

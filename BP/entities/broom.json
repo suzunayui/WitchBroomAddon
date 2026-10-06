@@ -1,0 +1,246 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "witchbroom:broom",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "witchbroom:occupied": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "witchbroom",
+          "inanimate"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 0.85,
+        "height": 1.0
+      },
+      "minecraft:physics": {
+        "has_gravity": true,
+        "has_collision": true,
+        "push_towards_closest_space": true
+      },
+      "minecraft:can_fly": {},
+      "minecraft:jump.static": {},
+      "minecraft:is_tamed": {},
+      "minecraft:persistent": {},
+      "minecraft:health": {
+        "value": 10,
+        "max": 10
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1.0
+      },
+      "minecraft:pushable_by_block": {},
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0,
+        "breathes_air": true,
+        "breathes_water": true
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "fall",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/entities/broom.json"
+      },
+      "minecraft:movement": {
+        "value": 0.045
+      },
+      "minecraft:flying_speed": {
+        "value": 0.045
+      },
+      "minecraft:free_camera_controlled": {
+        "strafe_speed_modifier": 0.8,
+        "backwards_movement_modifier": 0.5
+      },
+      "minecraft:vertical_movement_action": {
+        "vertical_velocity": 0.22
+      },
+      "minecraft:behavior.player_ride_tamed": {
+        "priority": 1
+      },
+      "minecraft:body_rotation_always_follows_head": {},
+      "minecraft:rideable": {
+        "seat_count": 1,
+        "controlling_seat": 0,
+        "family_types": [
+          "player"
+        ],
+        "pull_in_entities": false,
+        "crouching_skip_interact": true,
+        "rider_can_interact": false,
+        "dismount_mode": "default",
+        "interact_text": "action.interact.witchbroom.ride",
+        "on_rider_enter_event": "witchbroom:mount",
+        "on_rider_exit_event": "witchbroom:land",
+        "seats": [
+          {
+            "position": [
+              0,
+              0.4,
+              0
+            ],
+            "third_person_camera_radius": 4.0
+          }
+        ]
+      },
+      "minecraft:interact": {
+        "interactions": [
+          {
+            "on_interact": {
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "test": "is_sneaking",
+                    "subject": "other",
+                    "value": true
+                  },
+                  {
+                    "test": "rider_count",
+                    "subject": "self",
+                    "operator": "equals",
+                    "value": 0
+                  }
+                ]
+              },
+              "event": "witchbroom:pack",
+              "target": "self"
+            },
+            "use_item": false,
+            "cooldown": 1.0,
+            "interact_text": "action.interact.witchbroom.pack",
+            "spawn_items": {
+              "table": "loot_tables/entities/broom.json",
+              "y_offset": 0.5
+            }
+          }
+        ]
+      },
+      "minecraft:timer": {
+        "looping": true,
+        "time": 2.0,
+        "time_down_event": {
+          "event": "witchbroom:reconcile",
+          "target": "self"
+        }
+      }
+    },
+    "component_groups": {
+      "witchbroom:landed": {
+        "minecraft:physics": {
+          "has_gravity": true,
+          "has_collision": true,
+          "push_towards_closest_space": true
+        }
+      },
+      "witchbroom:flying": {
+        "minecraft:physics": {
+          "has_gravity": false,
+          "has_collision": true,
+          "push_towards_closest_space": true
+        }
+      },
+      "witchbroom:packed": {
+        "minecraft:instant_despawn": {}
+      }
+    },
+    "events": {
+      "witchbroom:mount": {
+        "remove": {
+          "component_groups": [
+            "witchbroom:landed"
+          ]
+        },
+        "add": {
+          "component_groups": [
+            "witchbroom:flying"
+          ]
+        },
+        "set_property": {
+          "witchbroom:occupied": true
+        }
+      },
+      "witchbroom:land": {
+        "add": {
+          "component_groups": [
+            "witchbroom:landed"
+          ]
+        },
+        "remove": {
+          "component_groups": [
+            "witchbroom:flying"
+          ]
+        },
+        "set_property": {
+          "witchbroom:occupied": false
+        },
+        "stop_movement": {}
+      },
+      "witchbroom:pack": {
+        "add": {
+          "component_groups": [
+            "witchbroom:packed"
+          ]
+        }
+      },
+      "witchbroom:reconcile": {
+        "sequence": [
+          {
+            "filters": {
+              "all_of": [
+                {
+                  "test": "bool_property",
+                  "domain": "witchbroom:occupied",
+                  "value": true
+                },
+                {
+                  "test": "rider_count",
+                  "operator": "equals",
+                  "value": 0
+                }
+              ]
+            },
+            "trigger": "witchbroom:land"
+          },
+          {
+            "filters": {
+              "all_of": [
+                {
+                  "test": "bool_property",
+                  "domain": "witchbroom:occupied",
+                  "value": false
+                },
+                {
+                  "test": "rider_count",
+                  "operator": ">",
+                  "value": 0
+                }
+              ]
+            },
+            "trigger": "witchbroom:mount"
+          }
+        ]
+      }
+    }
+  }
+}

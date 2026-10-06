@@ -1,0 +1,8 @@
+pack.name=月あかりのほうき 見た目パック
+pack.description=魔女の空飛ぶほうき v0.1.0 | Bedrock 26.50+
+item.witchbroom:broom.name=月あかりのほうき
+entity.witchbroom:broom.name=月あかりのほうき
+action.interact.witchbroom.ride=ほうきに乗る
+action.interact.witchbroom.pack=ほうきをしまう
+witchbroom.controls=§b月あかりのほうき §f｜移動＋視線で飛行・ジャンプで上昇・しゃがむで降りる
+witchbroom.landing=§dふんわり着地中 §f｜安全な地面へ
